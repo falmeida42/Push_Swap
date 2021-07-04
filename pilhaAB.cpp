@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct t_list
 {
@@ -7,7 +8,7 @@ typedef struct t_list
     struct t_list *proximo;
 }t_list;
 
-
+// Utilidades
 int		ft_atoi(const char *str)
 {
 	int		i;
@@ -128,6 +129,7 @@ void delet_direita(t_list *primeirono)
     free(aux->proximo);
     aux->proximo = NULL;
 }
+// Utilidades
 
 // Mecanismos Push Swap
 void swap(t_list *primeirono)
@@ -212,6 +214,23 @@ void show_list_b(t_list *primeironob)
 }
 // Mecanismos Push Swap
 
+// Algoritmo
+void algo_3(t_list **stack_a, t_list **stack_b)
+{
+    
+}
+void select_algo(t_list **stack_a, t_list **stack_b)
+{
+    int nbr;
+
+    nbr = lst_size(*stack_a) - 1;
+
+    if (nbr <= 5)
+       algo_3(stack_a, stack_b);
+ 
+}
+// Algoritmo
+
 // Mecanismos de Checagem
 void sorted(t_list *primeirono, t_list *primeironob)
 {
@@ -237,24 +256,27 @@ void sorted(t_list *primeirono, t_list *primeironob)
     }
     //printf("Ordenado\n");
 }
+bool dup_check(t_list *stack_a)
+{
+    t_list *aux;
+    t_list *aux_prox;
+
+    aux = stack_a;
+    while (aux)
+    {
+        aux_prox = aux->proximo;
+        while (aux_prox)
+        {
+            if (aux->valor == aux_prox->valor)
+                return (false);
+                aux_prox = aux_prox->proximo;
+        }
+        aux = aux->proximo;
+    }
+    return (true);
+}
+
 // Mecanismos de Checagem
-
-// Algoritmo
-void algo_3(t_list **stack_a, t_list **stack_b)
-{
-    
-}
-void select_algo(t_list **stack_a, t_list **stack_b)
-{
-    int nbr;
-
-    nbr = lst_size(*stack_a) - 1;
-
-    if (nbr <= 5)
-       algo_3(stack_a, stack_b);
- 
-}
-// Algoritmo
 
 t_list *fill_stack(int argc, char **argv)
 {
@@ -270,7 +292,10 @@ t_list *fill_stack(int argc, char **argv)
         nbr = ft_atoi(argv[i++]);
         ft_lstadd_back(&stack_a, ft_lstnew(nbr));
     }
-    return (stack_a);
+    if (dup_check(stack_a) == false)
+        return (0);
+    else
+        return (stack_a);
 }
 
 int main(int argc, char **argv)
@@ -284,7 +309,6 @@ int main(int argc, char **argv)
     stack_b = NULL;
 
     stack_a = fill_stack(argc, argv);
-
     sorted(stack_a, stack_b);
     select_algo(&stack_a, &stack_b);
     show_list(stack_a);
