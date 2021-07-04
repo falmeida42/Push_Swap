@@ -158,38 +158,22 @@ void sorted(t_list *primeirono, t_list *primeironob)
     printf("Ordenado\n");
 }
 
+t_list fill_stack(int argc, char **argv)
+{
+    t_list *stack_a;
+    
+}
+
 int main(void)
 {   
-    t_list *primeirono = (t_list *)malloc(sizeof(t_list));
-    t_list *segundono = (t_list *)malloc(sizeof(t_list));
-    t_list *terceirono = (t_list *)malloc(sizeof(t_list));
-    t_list *quartono = (t_list *)malloc(sizeof(t_list));
-    t_list *quintono = (t_list *)malloc(sizeof(t_list));
+    t_list *stack_a;
+    t_list *stack_b;
     
-    t_list *primeironob = (t_list *)malloc(sizeof(t_list));
-    t_list *segundonob = (t_list *)malloc(sizeof(t_list));
-    t_list *terceironob = (t_list *)malloc(sizeof(t_list));
-    
-    primeirono->valor = 10;
-    primeirono->proximo = segundono;
-    segundono->valor = 20;
-    segundono->proximo = terceirono;
-    terceirono->valor = 30;
-    terceirono->proximo = quartono;
-    quartono->valor = 40;
-    quartono->proximo = quintono;
-    quintono->valor = 50;
-    quintono->proximo = NULL;
+    stack_a = NULL;
+    stack_b = NULL;
 
-    primeironob->valor = 60;
-    primeironob->proximo = segundonob;
-    segundonob->valor = 70;
-    segundonob->proximo = terceironob;
-    terceironob->valor = 80;
-    terceironob->proximo = NULL;
-    
-    sorted(primeirono, primeironob);
-    show_list(primeirono);
-    show_list_b(primeironob);
+    sorted(stack_a, stack_b);
+    show_list(stack_a);
+    show_list_b(stack_b);
     return (0);
 }
