@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
 
@@ -132,7 +133,7 @@ void delet_direita(t_list *primeirono)
 // Utilidades
 
 // Mecanismos Push Swap
-void swap(t_list *primeirono)
+void swap_a(t_list *primeirono)
 {
     int valor;
 
@@ -141,36 +142,59 @@ void swap(t_list *primeirono)
     valor = primeirono->valor;
     primeirono->valor = primeirono->proximo->valor;
     primeirono->proximo->valor = valor;
+    write(1, "sa\n", 3);
+}
+void swap_b(t_list *primeirono)
+{
+    int valor;
+
+    if(!primeirono || !primeirono->proximo)
+        return ;
+    valor = primeirono->valor;
+    primeirono->valor = primeirono->proximo->valor;
+    primeirono->proximo->valor = valor;
+    write(1, "sa\n", 3);
 }
 void swap_a_b(t_list *primeirono, t_list *primeironob)
 {
-    swap(primeirono);
-    swap(primeironob);
+    swap_a(primeirono);
+    swap_b(primeironob);
+    write(1, "ss\n", 3);
 }
 
-void push_b(t_list **primeirono, t_list **primeironob)
+void push_a(t_list **primeirono, t_list **primeironob)
 {
     no_esquerda(primeironob, (*primeirono)->valor);
     delet_esquerda(primeirono);
+    write(1, "pa\n", 3);
 }
-void push_a(t_list **primeirono, t_list **primeironob)
+void push_b(t_list **primeirono, t_list **primeironob)
 {
     no_esquerda(primeirono, (*primeironob)->valor);
     delet_esquerda(primeironob);
+    write(1, "pb\n", 3);
 }
 
-void rotate(t_list **primeirono)
+void rotate_a(t_list **primeirono)
 {
     no_direita((*primeirono), (*primeirono)->valor);
     delet_esquerda(primeirono);
+    write(1, "ra\n", 3);
+}
+void rotate_b(t_list **primeirono)
+{
+    no_direita((*primeirono), (*primeirono)->valor);
+    delet_esquerda(primeirono);
+    write(1, "rb\n", 3);
 }
 void rotate_ab(t_list **primeirono, t_list **primeironob)
 {
-    rotate(primeirono);
-    rotate(primeironob);
+    rotate_a(primeirono);
+    rotate_b(primeironob);
+    write(1, "rr\n", 3);
 }
 
-void reverse_rotate(t_list **primeirono)
+void reverse_rotate_a(t_list **primeirono)
 {
     t_list *aux;
 
@@ -179,11 +203,24 @@ void reverse_rotate(t_list **primeirono)
         aux = aux->proximo;
     no_esquerda(primeirono, aux->valor);
     delet_direita(*primeirono);
+    write(1, "rra\n", 4);
+}
+void reverse_rotate_b(t_list **primeirono)
+{
+    t_list *aux;
+
+    aux = *primeirono;
+    while (aux->proximo != NULL)
+        aux = aux->proximo;
+    no_esquerda(primeirono, aux->valor);
+    delet_direita(*primeirono);
+    write(1, "rrb\n", 4);
 }
 void reverse_rotate_ab(t_list **primeirono, t_list **primeironob)
 {
-    reverse_rotate(primeirono);
-    reverse_rotate(primeironob);
+    reverse_rotate_a(primeirono);
+    reverse_rotate_b(primeironob);
+    write(1, "rrr\n", 4);
 }
 
 void show_list(t_list *primeirono)
@@ -217,7 +254,36 @@ void show_list_b(t_list *primeironob)
 // Algoritmo
 void algo_3(t_list **stack_a, t_list **stack_b)
 {
+    t_list *ax;
+    t_list *axp;
+    t_list *axpp;
+    int a;
+    int b;
+    int c;
+
+    ax = *stack_a;
+    axp = ax->proximo;
+    axpp = axp->proximo;
+    a = ax->valor;
+    b = axp->valor;
+    c = axpp->valor;
     
+    if (a > b && b < c && c > a)
+        swap_a(*stack_a);
+    else if (a > b && b > c && c < a)
+    {
+        swap_a(*stack_a);
+        reverse_rotate_a(stack_a);
+    }
+    else if (a > b && b < c && c < a)
+        rotate_a(stack_a);
+    else if (a < b && b > c && c > a)
+    {
+        swap_a(*stack_a);
+        rotate_a(stack_a);
+    }
+    else
+        reverse_rotate_a(stack_a);
 }
 void select_algo(t_list **stack_a, t_list **stack_b)
 {
@@ -225,7 +291,7 @@ void select_algo(t_list **stack_a, t_list **stack_b)
 
     nbr = lst_size(*stack_a) - 1;
 
-    if (nbr <= 5)
+    if (nbr <= 3)
        algo_3(stack_a, stack_b);
  
 }
