@@ -10,7 +10,37 @@ typedef struct t_list
 }t_list;
 
 // Utilidades
-int		ft_atoi(const char *str)
+bool    sorted(t_list *primeirono)
+{
+    t_list *aux;
+    aux = primeirono;
+
+    while (aux->proximo != NULL)
+    {
+        if (aux->valor > aux->proximo->valor)
+            return (false);
+        aux = aux->proximo;
+    }
+    return (true);
+}
+
+bool    max_list(t_list *stack)
+{
+    t_list *aux;
+    int i;
+
+    i = stack->valor;
+    aux = stack;
+    while (aux->proximo != NULL)
+    {
+        if (i < aux->valor)
+            return (false);
+        aux = aux->proximo;
+    }
+    return (true);
+}
+
+int ft_atoi(const char *str)
 {
 	int		i;
 	int		num;
@@ -51,7 +81,7 @@ int lst_size(t_list *stack)
     return (i);
 }
 
-t_list	*ft_lstlast(t_list *lst)
+t_list  *ft_lstlast(t_list *lst)
 {
 	if (lst)
 	{
@@ -61,7 +91,7 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *newno)
+void    ft_lstadd_back(t_list **lst, t_list *newno)
 {
 	t_list	*ptr;
 	if (lst)
@@ -76,7 +106,7 @@ void	ft_lstadd_back(t_list **lst, t_list *newno)
 	}
 }
 
-t_list	*ft_lstnew(int content)
+t_list  *ft_lstnew(int content)
 {
 	t_list	*ptr;
 	ptr = (t_list *)malloc(sizeof(t_list));
@@ -164,14 +194,19 @@ void swap_a_b(t_list *primeirono, t_list *primeironob)
 
 void push_a(t_list **primeirono, t_list **primeironob)
 {
-    no_esquerda(primeironob, (*primeirono)->valor);
-    delet_esquerda(primeirono);
-    write(1, "pa\n", 3);
+    if (*primeironob == NULL)
+        return ;
+    else
+        no_esquerda(primeirono, (*primeironob)->valor);
+        delet_esquerda(primeironob);
+        write(1, "pa\n", 3);
 }
 void push_b(t_list **primeirono, t_list **primeironob)
 {
-    no_esquerda(primeirono, (*primeironob)->valor);
-    delet_esquerda(primeironob);
+    if (primeirono == NULL)
+        return;
+    no_esquerda(primeironob, (*primeirono)->valor);
+    delet_esquerda(primeirono);
     write(1, "pb\n", 3);
 }
 
@@ -252,22 +287,17 @@ void show_list_b(t_list *primeironob)
 // Mecanismos Push Swap
 
 // Algoritmo
-void algo_3(t_list **stack_a, t_list **stack_b)
+void algo_3(t_list **stack_a)
 {
     t_list *ax;
-    t_list *axp;
-    t_list *axpp;
     int a;
     int b;
     int c;
 
     ax = *stack_a;
-    axp = ax->proximo;
-    axpp = axp->proximo;
     a = ax->valor;
-    b = axp->valor;
-    c = axpp->valor;
-    
+    b = ax->proximo->valor;
+    c = ax->proximo->proximo->valor;
     if (a > b && b < c && c > a)
         swap_a(*stack_a);
     else if (a > b && b > c && c < a)
@@ -285,6 +315,30 @@ void algo_3(t_list **stack_a, t_list **stack_b)
     else
         reverse_rotate_a(stack_a);
 }
+
+void algo_5(t_list **stack_a, t_list **stack_b)
+{
+    int i;
+
+    i = lst_size(*stack_a);
+    push_b(stack_a, stack_b);
+    push_b(stack_a, stack_b);
+    algo_3(stack_a);
+    if (max_list(*stack_b) == false)
+        swap_b(*stack_b);
+    push_a(stack_a, stack_b);
+    /*
+    while (sorted(*stack_a) == false && lst_size(*stack_a) != i)
+    {
+        if (max_list(*stack_a) == true)
+        rotate_a(stack_a);
+        else
+            swap_a(*stack_a);
+        push_a(stack_a, stack_b);
+    }
+    */
+}
+
 void select_algo(t_list **stack_a, t_list **stack_b)
 {
     int nbr;
@@ -292,36 +346,15 @@ void select_algo(t_list **stack_a, t_list **stack_b)
     nbr = lst_size(*stack_a) - 1;
 
     if (nbr <= 3)
-       algo_3(stack_a, stack_b);
- 
+        algo_3(stack_a);
+    else
+        algo_5(stack_a, stack_b);
+  
 }
 // Algoritmo
 
 // Mecanismos de Checagem
-void sorted(t_list *primeirono, t_list *primeironob)
-{
-    t_list *aux;
-    t_list *auxb;
-    aux = primeirono;
-    auxb = primeironob;
 
-    /*
-    if (!NULL)
-    {
-        printf("ERROR");
-    }
-    */
-    while (aux->proximo != NULL)
-    {
-        if (aux->valor > aux->proximo->valor)
-        {
-            //printf("Nao ordenado\n");
-            return ;
-        }
-        aux = aux->proximo;
-    }
-    //printf("Ordenado\n");
-}
 bool dup_check(t_list *stack_a)
 {
     t_list *aux;
@@ -375,7 +408,6 @@ int main(int argc, char **argv)
     stack_b = NULL;
 
     stack_a = fill_stack(argc, argv);
-    sorted(stack_a, stack_b);
     select_algo(&stack_a, &stack_b);
     show_list(stack_a);
     show_list_b(stack_b);
