@@ -10,6 +10,37 @@ typedef struct t_list
 }t_list;
 
 // Utilidades
+int     map_val(t_list *stack)
+{
+    t_list *aux;
+    int i;
+
+    aux = stack;
+    i = aux->valor;
+    while (aux)
+    {
+        if (aux->valor < i)
+            i = aux->valor;
+        aux = aux->proximo;
+    }
+    return (i);
+}
+
+int     map_min(t_list *stack)
+{
+    t_list *aux;
+    int j;
+
+    aux = stack;
+    j = 0;
+    while (aux->valor != map_val(stack))
+    {
+        aux = aux->proximo;
+        j++;
+    }
+    return (j);
+}
+
 bool    sorted(t_list *primeirono)
 {
     t_list *aux;
@@ -214,6 +245,7 @@ void rotate_a(t_list **primeirono)
 {
     no_direita((*primeirono), (*primeirono)->valor);
     delet_esquerda(primeirono);
+    
     write(1, "ra\n", 3);
 }
 void rotate_b(t_list **primeirono)
@@ -318,25 +350,13 @@ void algo_3(t_list **stack_a)
 
 void algo_5(t_list **stack_a, t_list **stack_b)
 {
-    int i;
-
-    i = lst_size(*stack_a);
-    push_b(stack_a, stack_b);
-    push_b(stack_a, stack_b);
-    algo_3(stack_a);
-    if (max_list(*stack_b) == false)
-        swap_b(*stack_b);
-    push_a(stack_a, stack_b);
-    /*
-    while (sorted(*stack_a) == false && lst_size(*stack_a) != i)
+    while ((*stack_a)->valor != map_val(*stack_a))
     {
-        if (max_list(*stack_a) == true)
-        rotate_a(stack_a);
+        if (map_min(*stack_a) < lst_size(*stack_a) / 2)
+            rotate_a(stack_a);
         else
-            swap_a(*stack_a);
-        push_a(stack_a, stack_b);
+            reverse_rotate_a(stack_a);
     }
-    */
 }
 
 void select_algo(t_list **stack_a, t_list **stack_b)
