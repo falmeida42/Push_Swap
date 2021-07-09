@@ -330,33 +330,43 @@ void algo_3(t_list **stack_a)
     a = ax->valor;
     b = ax->proximo->valor;
     c = ax->proximo->proximo->valor;
-    if (a > b && b < c && c > a)
-        swap_a(*stack_a);
-    else if (a > b && b > c && c < a)
+    if (sorted(*stack_a) == false)
     {
-        swap_a(*stack_a);
-        reverse_rotate_a(stack_a);
+        if (a > b && b < c && c > a)
+            swap_a(*stack_a);
+        else if (a > b && b > c && c < a)
+        {
+            swap_a(*stack_a);
+            reverse_rotate_a(stack_a);
+        }
+        else if (a > b && b < c && c < a)
+            rotate_a(stack_a);
+        else if (a < b && b > c && c > a)
+        {
+            swap_a(*stack_a);
+            rotate_a(stack_a);
+        }
+        else
+            reverse_rotate_a(stack_a);
     }
-    else if (a > b && b < c && c < a)
-        rotate_a(stack_a);
-    else if (a < b && b > c && c > a)
-    {
-        swap_a(*stack_a);
-        rotate_a(stack_a);
-    }
-    else
-        reverse_rotate_a(stack_a);
 }
 
 void algo_5(t_list **stack_a, t_list **stack_b)
 {
-    while ((*stack_a)->valor != map_val(*stack_a))
+    while(lst_size(*stack_a) > 3)
     {
-        if (map_min(*stack_a) < lst_size(*stack_a) / 2)
-            rotate_a(stack_a);
-        else
-            reverse_rotate_a(stack_a);
+        while ((*stack_a)->valor != map_val(*stack_a))
+        {
+            if (map_min(*stack_a) < lst_size(*stack_a) / 2)
+                rotate_a(stack_a);
+            else
+                reverse_rotate_a(stack_a);
+        }
+        push_b(stack_a, stack_b);
     }
+    algo_3(stack_a);
+    while ((*stack_b) != NULL)
+        push_a(stack_a, stack_b);
 }
 
 void select_algo(t_list **stack_a, t_list **stack_b)
@@ -428,7 +438,8 @@ int main(int argc, char **argv)
     stack_b = NULL;
 
     stack_a = fill_stack(argc, argv);
-    select_algo(&stack_a, &stack_b);
+    if (sorted(stack_a) == false)
+        select_algo(&stack_a, &stack_b);
     show_list(stack_a);
     show_list_b(stack_b);
     return (0);
