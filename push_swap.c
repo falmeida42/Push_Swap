@@ -121,6 +121,6 @@ int main(int argc, char **argv)
     if (sorted(stack_a) == false)
         select_algo(&stack_a, &stack_b);
     show_list(stack_a);
-    show_list(stack_b);
+    show_list_b(stack_b);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 17:37:56 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/10 18:32:58 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/10 18:46:06 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct t_list
 
 //APAGAAAAAAAAAAR
 void show_list(t_list *primeirono);
+void show_list_b(t_list *primeirono);
 //APAGAAAAAAAAAAR
 
 void    swap_a(t_list *primeirono);

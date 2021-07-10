@@ -6,11 +6,13 @@
 #    By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 17:16:47 by falmeida          #+#    #+#              #
-#    Updated: 2021/07/10 18:35:42 by falmeida         ###   ########.fr        #
+#    Updated: 2021/07/10 19:35:00 by falmeida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = push_swap.a
+CFLAGS = -Wall -Werror -Wextra -g
+
+NAME = push_swap
 
 SRC = push_swap.c		\
 	  moviments.c		\
@@ -19,11 +21,10 @@ SRC = push_swap.c		\
 
 OBJS = $(SRC:.c=.o)
 
-all: $(NAME)
+$(NAME) : $(OBJS)
+	gcc $(OBJS) $(FLAGS) -o $(NAME) 
 
-$(NAME):
-	gcc -c -Wall -Wextra -Werror $(SRC)
-	ar rc $(NAME) $(OBJS)
+all: $(NAME)
 
 clean:
 	/bin/rm -rf $(OBJS)
