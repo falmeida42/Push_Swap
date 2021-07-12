@@ -45,9 +45,10 @@ void    reverse_rotate_ab(t_list **primeirono, t_list **primeironob);
 void    ft_lstadd_back(t_list **lst, t_list *newno);
 void    no_esquerda(t_list **primeirono, int valor);
 void    delet_esquerda(t_list **primeirono);
-void no_direita(t_list *primeirono, int valor);
-void delet_direita(t_list *primeirono);
+void    no_direita(t_list *primeirono, int valor);
+void    delet_direita(t_list *primeirono);
 
+long ft_atol(char *str);
 int ft_atoi(const char *str);
 int map_val(t_list *stack);
 int map_min(t_list *stack);
