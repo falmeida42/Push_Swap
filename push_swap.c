@@ -107,6 +107,213 @@ void algo_5(t_list **stack_a, t_list **stack_b)
         push_a(stack_a, stack_b);
 }
 
+void sort_list(int lista[], int nbr)
+{
+    int i;
+    int j;
+    int swap;
+    i = 0;
+    while (i < nbr)
+    {
+        j = i + 1;
+        while (j < nbr)
+        {
+            if (lista[i] > lista[j])
+            {
+                swap = lista[i];
+                lista[i] = lista[j];
+                lista[j] = swap;
+            }
+            j++;
+        }
+        i++;
+    }
+}
+void fill_vetor(t_list *stack_a, int lista[])
+{
+    t_list *aux;
+    int i;
+    aux = stack_a;
+    i = 0;
+    while (aux)
+    {
+        lista[i] = aux->valor;
+        aux = aux->proximo;
+        i++;
+    }
+}
+
+void check_vetor(int lista[], int nbr)
+{
+    int i;
+
+    i = 0;
+    printf("\n");
+    while (i < nbr)
+    {
+        printf("%d ", lista[i]);
+        i++;
+    }
+    printf("\n");
+}
+
+bool check_holdfirst(int chunk1, int lista[], t_list *stack_a)
+{
+    t_list *aux;
+    long int hold_first;
+    int i;
+    int j;
+
+    i = 0;
+    aux = stack_a;
+    hold_first = 2147483648;
+    while (i < chunk1)
+    {
+        j = 0;
+        while (j < chunk1)
+        {
+            if (lista[j] == aux->valor && lista[j] < hold_first)
+            return (true);
+            j++;
+        }
+        aux = aux->proximo;
+        i++;
+    }
+    return (false);
+}
+
+int mapear_valor(t_list *stack_a, int valor)
+{
+    t_list *aux;
+    int i;
+
+    i = 0;
+    aux = stack_a;
+    while (aux)
+    {
+        if (aux->valor == valor)
+            break ;
+        aux = aux->proximo;
+        i++;
+    }
+    return (i);
+}
+
+int map_holdfirst(int chunk1, int lista[], t_list *stack_a)
+{
+    t_list *aux;
+    int hold_first;
+    int i;
+    int j;
+    int map;
+
+    i = 0;
+    aux = stack_a;
+    hold_first = 2147483647;
+    while (i < chunk1)
+    {
+        j = 0;
+        while (j < chunk1)
+        {
+            if (lista[j] == aux->valor && lista[j] <= hold_first)
+            hold_first = lista[j];
+            j++;
+        }
+        aux = aux->proximo;
+        i++;
+    }
+    map = mapear_valor(stack_a, hold_first);
+    return (map);
+}
+
+int map_holdsecond(int chunk1, int lista[], t_list *stack_a)
+{
+    t_list *aux;
+    int i;
+    int hold_second;
+    int map;
+
+    i = 0;
+    aux = stack_a;
+    hold_second = aux->valor;
+    while (i < chunk1)
+    {
+        while (aux)
+        {
+            if (aux->valor == lista[i] && lista[i] <= hold_second)
+                hold_second = lista[i];
+            aux = aux->proximo;
+        }
+        aux = stack_a;
+        i++;
+    }
+    map = mapear_valor(stack_a, hold_second);
+    return (map);
+}
+
+int valor_selecionado(t_list *stack_a, int nbr)
+{
+    t_list *aux;
+    int i;
+
+    aux = stack_a;
+    i = 0;
+    while (i < nbr)
+    {
+        aux = aux->proximo;
+        i++;
+    }
+    return (aux->valor);
+}
+
+void decisions_100(t_list **stack_a, t_list **stack_b, int hf, int hs, int size)
+{
+    int middle;
+    int valor;
+    middle = size / 2;
+    
+    if (hf == -1)
+    {
+        valor = valor_selecionado(*stack_a, hs);
+        if (hs > middle)
+        {
+            while ((*stack_a)->valor != valor)
+                reverse_rotate_a(stack_a);
+        }
+        else
+        {
+            while ((*stack_a)->valor != valor)
+                rotate_a(stack_a);
+        }
+        push_b(stack_a, stack_b); 
+    }
+    
+}
+
+void algo_100(t_list **stack_a, t_list **stack_b)
+{
+    int lista[lst_size(*stack_a)];
+    int size;
+    int chunk1;
+    int hold_first;
+    int hold_second;
+    int i;
+
+    i = 0;
+    size = lst_size(*stack_a);
+    fill_vetor(*stack_a, lista);
+    sort_list(lista, size);
+    size = lst_size(*stack_a);
+    chunk1 = size / 5;
+
+    if (check_holdfirst(chunk1, lista, *stack_a) == true)
+        hold_first = map_holdfirst(chunk1, lista, *stack_a);
+    else
+        hold_first = -1;
+    hold_second = map_holdsecond(chunk1, lista, *stack_a);
+    decisions_100(stack_a, stack_b, hold_first, hold_second, size);
+}
+
 void select_algo(t_list **stack_a, t_list **stack_b)
 {
     int nbr;
@@ -117,10 +324,10 @@ void select_algo(t_list **stack_a, t_list **stack_b)
         swap_a(*stack_a);
     else if (nbr == 3)
         algo_3(stack_a);
-    else if (nbr > 3 && nbr < 101)
+    else if (nbr <= 5)
         algo_5(stack_a, stack_b);
     else
-        algo_5(stack_a, stack_b);
+        algo_100(stack_a, stack_b);
   
 }
 
@@ -139,14 +346,13 @@ t_list *fill_stack(int argc, char **argv)
         ft_lstadd_back(&stack_a, ft_lstnew(nbr));
         
     }
+    /*
     if (check_dup(stack_a) == false)
     {
-        free(stack_a);
-        stack_a = NULL;
         write(1, "Error\n", 6);
         return (0);
     }
-
+    */
     return (stack_a);
 }
 
@@ -167,8 +373,6 @@ int main(int argc, char **argv)
             select_algo(&stack_a, &stack_b);
         show_list(stack_a);
         show_list_b(stack_b);
-        free(stack_a);
-        free(stack_b);
     }
     return (0);
 }
