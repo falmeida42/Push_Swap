@@ -232,16 +232,22 @@ int map_holdsecond(int chunk1, int lista[], t_list *stack_a)
     int i;
     int hold_second;
     int map;
+    int j;
+    int k;
 
     i = 0;
     aux = stack_a;
     hold_second = aux->valor;
     while (i < chunk1)
     {
+        k = 0;
         while (aux)
         {
-            if (aux->valor == lista[i] && lista[i] <= hold_second)
+            if (aux->valor == lista[i] && k > j)
+            {
                 hold_second = lista[i];
+                j = mapear_valor(stack_a, hold_second);
+            }            k++;
             aux = aux->proximo;
         }
         aux = stack_a;
@@ -266,10 +272,56 @@ int valor_selecionado(t_list *stack_a, int nbr)
     return (aux->valor);
 }
 
+int maior_valor(t_list *stack)
+{
+    t_list *aux;
+    int i;
+
+    i = aux->valor;
+    aux = stack;
+    while (aux)
+    {
+        if (aux->valor > i)
+            i = aux->valor;
+        aux = aux->proximo;
+    }
+    return (i);
+}
+
+int menor_valor(t_list *stack)
+{
+    t_list *aux;
+    int i;
+
+    i = aux->valor;
+    aux = stack;
+    while (aux)
+    {
+        if (aux->valor < i)
+            i = aux->valor;
+        aux = aux->proximo;
+    }
+    return (i);
+}
+
+void go_pb(t_list **stack_a, t_list **stack_b, int valor)
+{
+    int big;
+    int small;
+
+    big = maior_valor(*stack_b);
+    small = menor_valor(*stack_b);
+    printf("%d\n", big);
+    printf("%d\n", small);
+
+    push_b(stack_a, stack_b);
+}
+
 void decisions_100(t_list **stack_a, t_list **stack_b, int hf, int hs, int size)
 {
     int middle;
     int valor;
+    int cmp_hs;
     middle = size / 2;
     
     if (hf == -1)
@@ -285,9 +337,54 @@ void decisions_100(t_list **stack_a, t_list **stack_b, int hf, int hs, int size)
             while ((*stack_a)->valor != valor)
                 rotate_a(stack_a);
         }
-        push_b(stack_a, stack_b); 
+        go_pb(stack_a, stack_b, valor); 
     }
-    
+    else
+    {
+        cmp_hs = size - hs;
+        if (cmp_hs < hf)
+        {
+            valor = valor_selecionado(*stack_a, hs);
+            if (hs > middle)
+            {
+                while ((*stack_a)->valor != valor)
+                    reverse_rotate_a(stack_a);
+            }
+            else
+            {
+                while ((*stack_a)->valor != valor)
+                    rotate_a(stack_a);
+            }
+            go_pb(stack_a, stack_b, valor);
+        }
+        else
+        {
+            valor = valor_selecionado(*stack_a, hf);
+            if (hf > middle)
+            {
+                while ((*stack_a)->valor != valor)
+                    reverse_rotate_a(stack_a);
+            }
+            else
+            {
+                while ((*stack_a)->valor != valor)
+                    rotate_a(stack_a);
+            }
+            go_pb(stack_a, stack_b, valor);
+        }
+    }
+}
+
+void show_chunk1(int lista[], int chunk1)
+{
+    int i;
+
+    i = 0;
+    while (i < chunk1)
+    {
+        printf("%d\n", lista[i]);
+        i++;
+    }
 }
 
 void algo_100(t_list **stack_a, t_list **stack_b)
@@ -298,6 +395,8 @@ void algo_100(t_list **stack_a, t_list **stack_b)
     int hold_first;
     int hold_second;
     int i;
+    int j;
+    *stack_b = NULL;
 
     i = 0;
     size = lst_size(*stack_a);
@@ -305,13 +404,17 @@ void algo_100(t_list **stack_a, t_list **stack_b)
     sort_list(lista, size);
     size = lst_size(*stack_a);
     chunk1 = size / 5;
-
-    if (check_holdfirst(chunk1, lista, *stack_a) == true)
-        hold_first = map_holdfirst(chunk1, lista, *stack_a);
-    else
-        hold_first = -1;
-    hold_second = map_holdsecond(chunk1, lista, *stack_a);
-    decisions_100(stack_a, stack_b, hold_first, hold_second, size);
+    j = chunk1;
+    while (j)
+    {
+        if (check_holdfirst(chunk1, lista, *stack_a) == true)
+            hold_first = map_holdfirst(chunk1, lista, *stack_a);
+        else
+            hold_first = -1;
+        hold_second = map_holdsecond(chunk1, lista, *stack_a);
+        decisions_100(stack_a, stack_b, hold_first, hold_second, size);
+        j--;
+    }
 }
 
 void select_algo(t_list **stack_a, t_list **stack_b)
