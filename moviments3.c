@@ -1,53 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   moviments3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/10 18:10:31 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/19 21:28:42 by falmeida         ###   ########.fr       */
+/*   Created: 2021/07/19 21:20:29 by falmeida          #+#    #+#             */
+/*   Updated: 2021/07/19 21:29:09 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	map_val(t_list *stack)
+void	reverse_rotate_ab(t_list **primeirono, t_list **primeironob)
 {
-	t_list	*aux;
+	reverse_rotate(primeirono);
+	reverse_rotate(primeironob);
+	write(1, "rrr\n", 4);
+}
+
+long	ft_atol(char *str)
+{
 	int		i;
-
-	aux = stack;
-	i = aux->valor;
-	while (aux)
-	{
-		if (aux->valor < i)
-			i = aux->valor;
-		aux = aux->proximo;
-	}
-	return (i);
-}
-
-int	map_min(t_list *stack)
-{
-	t_list	*aux;
-	int		j;
-
-	aux = stack;
-	j = 0;
-	while (aux->valor != map_val(stack))
-	{
-		aux = aux->proximo;
-		j++;
-	}
-	return (j);
-}
-
-int	ft_atoi(const char *str)
-{
-	int	i;
-	int	num;
-	int	sign;
+	long	num;
+	int		sign;
 
 	i = 0;
 	num = 0;
@@ -62,34 +38,4 @@ int	ft_atoi(const char *str)
 	while (*(str + i) && *(str + i) >= '0' && *(str + i) <= '9')
 		num = num * 10 + (*(str + i++) - '0');
 	return (num * sign);
-}
-
-bool	sorted(t_list *primeirono)
-{
-	t_list	*aux;
-
-	aux = primeirono;
-	while (aux->proximo != NULL)
-	{
-		if (aux->valor > aux->proximo->valor)
-			return (false);
-		aux = aux->proximo;
-	}
-	return (true);
-}
-
-bool	max_list(t_list *stack)
-{
-	t_list	*aux;
-	int		i;
-
-	i = stack->valor;
-	aux = stack;
-	while (aux->proximo != NULL)
-	{
-		if (i < aux->valor)
-			return (false);
-		aux = aux->proximo;
-	}
-	return (true);
 }

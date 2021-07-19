@@ -6,7 +6,7 @@
 #    By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 17:16:47 by falmeida          #+#    #+#              #
-#    Updated: 2021/07/10 19:35:00 by falmeida         ###   ########.fr        #
+#    Updated: 2021/07/19 21:35:23 by falmeida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,15 @@ NAME = push_swap
 
 SRC = push_swap.c		\
 	  moviments.c		\
+	  moviments1.c		\
+	  moviments2.c		\
+	  moviments3.c		\
 	  utils.c			\
 	  tester.c			\
+	  check_error.c		\
+	  utils_list.c		\
+	  utils_list2.c		\
+	  algo_100.c		\
 
 OBJS = $(SRC:.c=.o)
 
