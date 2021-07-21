@@ -12,17 +12,17 @@ void	algo_3(t_list **stack_a)
 	b = ax->proximo->valor;
 	c = ax->proximo->proximo->valor;
 	if (a > b && b < c && c > a)
-		swap_a(*stack_a);
+		swap_a(stack_a);
 	else if (a > b && b > c && c < a)
 	{
-		swap_a(*stack_a);
+		swap_a(stack_a);
 		reverse_rotate_a(stack_a);
 	}
 	else if (a > b && b < c && c < a)
 		rotate_a(stack_a);
 	else if (a < b && b > c && c > a)
 	{
-		swap_a(*stack_a);
+		swap_a(stack_a);
 		rotate_a(stack_a);
 	}
 	else
@@ -33,6 +33,7 @@ void	algo_5(t_list **stack_a, t_list **stack_b)
 {
 	while (lst_size(*stack_a) > 3)
 	{
+		printf("%d\n", lst_size(*stack_a));
 		while ((*stack_a)->valor != map_val(*stack_a))
 		{
 			if (map_min(*stack_a) < lst_size(*stack_a) / 2)
@@ -41,6 +42,8 @@ void	algo_5(t_list **stack_a, t_list **stack_b)
 				reverse_rotate_a(stack_a);
 		}
 		push_b(stack_a, stack_b);
+		show_list(*stack_a);
+		show_list_b(*stack_b);
 	}
 	algo_3(stack_a);
 	while ((*stack_b) != NULL)
@@ -53,13 +56,16 @@ void	select_algo(t_list **stack_a, t_list **stack_b)
 
 	nbr = lst_size(*stack_a);
 	if (nbr == 2)
-		swap_a(*stack_a);
+		swap_a(stack_a);
 	else if (nbr == 3)
 		algo_3(stack_a);
 	else if (nbr <= 5)
 		algo_5(stack_a, stack_b);
 	else
-		algo_100(stack_a);
+	{
+		cont_index(stack_a);
+		algo_100(stack_a, stack_b);
+	}
 }
 
 t_list	*fill_stack(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 18:10:31 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/19 21:28:42 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/21 17:36:46 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ int	map_val(t_list *stack)
 	while (aux)
 	{
 		if (aux->valor < i)
+			i = aux->valor;
+		aux = aux->proximo;
+	}
+	return (i);
+}
+
+int	map_max(t_list *stack)
+{
+	t_list	*aux;
+	int		i;
+
+	aux = stack;
+	i = aux->valor;
+	while (aux)
+	{
+		if (aux->valor > i)
 			i = aux->valor;
 		aux = aux->proximo;
 	}

@@ -6,27 +6,11 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 18:23:12 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/19 20:52:36 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/21 18:00:26 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	ft_lstadd_back(t_list **lst, t_list *newno)
-{
-	t_list	*ptr;
-
-	if (lst)
-	{
-		if (*lst)
-		{
-			ptr = ft_lstlast(*lst);
-			ptr->proximo = newno;
-		}
-		else
-			*lst = newno;
-	}
-}
 
 void	no_esquerda(t_list **primeirono, int valor)
 {
@@ -47,7 +31,7 @@ void	delet_esquerda(t_list **primeirono)
 	free(newno);
 }
 
-void	no_direita(t_list *primeirono, int valor)
+void	no_direita(t_list *primeirono, int valor, int index)
 {
 	t_list	*aux;
 	t_list	*newno;
@@ -60,6 +44,7 @@ void	no_direita(t_list *primeirono, int valor)
 	}
 	aux->proximo = newno;
 	newno->valor = valor;
+	newno->index = index;
 	newno->proximo = NULL;
 }
 
