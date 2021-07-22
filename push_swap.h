@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 17:37:56 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/21 17:57:49 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/22 20:37:46 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,11 @@ void	decide_b(t_list **stack_a, t_list **stack_b, int chunk, int size);
 void	print_index(t_list *stack_a);
 void	algo_100(t_list **stack_a, t_list **stack_b);
 void	algo_5(t_list **stack_a, t_list **stack_b);
+int find_val(t_list *stack_a, int valor);
 //Algo 100
+
+//Decisions
+void decisions(t_list **stack_a, t_list **stack_b, int chunk, int size);
+//Decisions
+
 #endif

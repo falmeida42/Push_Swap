@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:34:10 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/21 19:11:28 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/22 21:01:00 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,8 @@ void	decide_b(t_list **stack_a, t_list **stack_b, int chunk, int size)
 	aux = *stack_a;
 	while (i)
 	{
-			while ((*stack_a)->index + 1 > chunk)
-			{
-				rotate_a(stack_a);
-			}
-			push_b(stack_a, stack_b);
-			i--;
+		decisions(stack_a, stack_b, chunk, size);
+		i--;
 	}
 }
 
@@ -103,10 +99,12 @@ void	algo_100(t_list **stack_a, t_list **stack_b)
 	}
 	while (*stack_b)
 	{
-		while (map_max(*stack_b) != (*stack_b)->valor)
-		{
-			rotate_b(stack_b);
-		}
+		if (find_val(*stack_b, map_max(*stack_b)) < size / 2)
+			while (map_max(*stack_b) != (*stack_b)->valor)
+				rotate_b(stack_b);
+		else
+			while (map_max(*stack_b) != (*stack_b)->valor)
+				reverse_rotate_b(stack_b);
 		push_a(stack_a, stack_b);
 	}
 }
