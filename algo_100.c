@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:34:10 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/22 21:01:00 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:37:14 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_index(t_list *stack_a)
 {
-	t_list *aux;
+	t_list	*aux;
 
 	aux = stack_a;
 	while (aux)
@@ -23,9 +23,9 @@ void	print_index(t_list *stack_a)
 	}
 }
 
-static void reset_index(t_list **stack_a)
+static void	reset_index(t_list **stack_a)
 {
-	t_list *aux;
+	t_list	*aux;
 
 	aux = *stack_a;
 	while (aux)
@@ -37,8 +37,8 @@ static void reset_index(t_list **stack_a)
 
 void	cont_index(t_list **stack_a)
 {
-	t_list *aux;
-	t_list *aux_prox;
+	t_list	*aux;
+	t_list	*aux_prox;
 
 	aux = *stack_a;
 	reset_index(stack_a);
@@ -55,14 +55,14 @@ void	cont_index(t_list **stack_a)
 	}
 }
 
-int find_val(t_list *stack_a, int valor)
+int	find_val(t_list *stack_a, int valor)
 {
-	t_list *aux;
-	int i;
+	t_list	*aux;
+	int		i;
 
 	i = 0;
 	aux = stack_a;
-	while (aux->valor != valor)
+	while (!(aux->valor == valor))
 	{
 		aux = aux->proximo;
 		i++;
@@ -72,9 +72,13 @@ int find_val(t_list *stack_a, int valor)
 
 void	decide_b(t_list **stack_a, t_list **stack_b, int chunk, int size)
 {
-	t_list *aux;
-	int i;
-	i = size / 5;
+	t_list	*aux;
+	int		i;
+
+	if (size >= 500)
+		i = size / 11;
+	else
+		i = size / 5;
 	if (!(*stack_a))
 		return ;
 	aux = *stack_a;
@@ -87,23 +91,34 @@ void	decide_b(t_list **stack_a, t_list **stack_b, int chunk, int size)
 
 void	algo_100(t_list **stack_a, t_list **stack_b)
 {
-	int chunk;
-	int	size; 
+	int	chunk;
+	int	size;
 
 	size = lst_size(*stack_a);
-	chunk = size / 5;
+	if (size >= 500)
+		chunk = size / 11;
+	else
+		chunk = size / 5;
 	while (chunk <= size)
 	{
 		decide_b(stack_a, stack_b, chunk, size);
-		chunk += size / 5;
+		if (size >= 500)
+			chunk = chunk + size / 11;
+		else
+			chunk = chunk + size / 5;
+	}
+	if (*stack_a)
+	{
+		while (*stack_a)
+			push_b(stack_a, stack_b);
 	}
 	while (*stack_b)
 	{
-		if (find_val(*stack_b, map_max(*stack_b)) < size / 2)
-			while (map_max(*stack_b) != (*stack_b)->valor)
+		if (find_val(*stack_b, map_max(*stack_b)) < lst_size(*stack_b) / 2)
+			while ((*stack_b)->valor < map_max(*stack_b))
 				rotate_b(stack_b);
 		else
-			while (map_max(*stack_b) != (*stack_b)->valor)
+			while ((*stack_b)->valor < map_max(*stack_b))
 				reverse_rotate_b(stack_b);
 		push_a(stack_a, stack_b);
 	}

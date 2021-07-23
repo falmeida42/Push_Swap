@@ -33,7 +33,6 @@ void	algo_5(t_list **stack_a, t_list **stack_b)
 {
 	while (lst_size(*stack_a) > 3)
 	{
-		printf("%d\n", lst_size(*stack_a));
 		while ((*stack_a)->valor != map_val(*stack_a))
 		{
 			if (map_min(*stack_a) < lst_size(*stack_a) / 2)
@@ -42,10 +41,9 @@ void	algo_5(t_list **stack_a, t_list **stack_b)
 				reverse_rotate_a(stack_a);
 		}
 		push_b(stack_a, stack_b);
-		show_list(*stack_a);
-		show_list_b(*stack_b);
 	}
-	algo_3(stack_a);
+	if (sorted(*stack_a) == false)
+		algo_3(stack_a);
 	while ((*stack_b) != NULL)
 		push_a(stack_a, stack_b);
 }
@@ -59,7 +57,7 @@ void	select_algo(t_list **stack_a, t_list **stack_b)
 		swap_a(stack_a);
 	else if (nbr == 3)
 		algo_3(stack_a);
-	else if (nbr <= 5)
+	else if (nbr <= 99)
 		algo_5(stack_a, stack_b);
 	else
 	{
@@ -106,8 +104,6 @@ int	main(int argc, char **argv)
 		if (sorted(stack_a) == false)
 			select_algo(&stack_a, &stack_b);
 	}
-	show_list(stack_a);
-	show_list_b(stack_b);
 	ft_lstclear(&stack_a, free);
 	ft_lstclear(&stack_b, free);
 	return (0);
