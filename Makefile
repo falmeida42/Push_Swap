@@ -6,7 +6,7 @@
 #    By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/10 17:16:47 by falmeida          #+#    #+#              #
-#    Updated: 2021/07/22 17:10:31 by falmeida         ###   ########.fr        #
+#    Updated: 2021/07/23 17:58:33 by falmeida         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ SRC = push_swap.c		\
 	  moviments2.c		\
 	  moviments3.c		\
 	  utils.c			\
-	  tester.c			\
 	  check_error.c		\
 	  utils_list.c		\
 	  utils_list2.c		\

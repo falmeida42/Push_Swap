@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 18:25:43 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/21 18:01:15 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 18:07:24 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,20 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		}
 		lst = NULL;
 	}
+}
+
+bool	max_list(t_list *stack)
+{
+	t_list	*aux;
+	int		i;
+
+	i = stack->valor;
+	aux = stack;
+	while (aux->proximo != NULL)
+	{
+		if (i < aux->valor)
+			return (false);
+		aux = aux->proximo;
+	}
+	return (true);
 }

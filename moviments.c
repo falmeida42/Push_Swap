@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:12:17 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/23 17:30:55 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:55:27 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,32 +72,4 @@ void	push(t_list **stack_src, t_list **stack_dst)
 	*stack_src = (*stack_src)->proximo;
 	top->proximo = NULL;
 	ft_lstadd_front(stack_dst, top);
-}
-
-void	rotate(t_list **stack)
-{
-	t_list	*top;
-
-	if (!(*stack) || !((*stack)->proximo))
-		return ;
-	top = *stack;
-	*stack = top->proximo;
-	top->proximo = NULL;
-	ft_lstadd_back(stack, top);
-}
-
-void	reverse_rotate(t_list **stack)
-{
-	t_list	*bot;
-	t_list	*temp;
-
-	if (!(*stack) || !((*stack)->proximo))
-		return ;
-	temp = *stack;
-	bot = *stack;
-	bot = ft_lstlast(bot);
-	while (temp->proximo->proximo)
-		temp = temp->proximo;
-	temp->proximo = NULL;
-	ft_lstadd_front(stack, bot);
 }

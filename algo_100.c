@@ -6,34 +6,11 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 21:34:10 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/23 17:37:14 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 18:18:18 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	print_index(t_list *stack_a)
-{
-	t_list	*aux;
-
-	aux = stack_a;
-	while (aux)
-	{
-		aux = aux->proximo;
-	}
-}
-
-static void	reset_index(t_list **stack_a)
-{
-	t_list	*aux;
-
-	aux = *stack_a;
-	while (aux)
-	{
-		aux->index = 0;
-		aux = aux->proximo;
-	}
-}
 
 void	cont_index(t_list **stack_a)
 {
@@ -89,6 +66,20 @@ void	decide_b(t_list **stack_a, t_list **stack_b, int chunk, int size)
 	}
 }
 
+void	back_tob(t_list **stack_a, t_list **stack_b)
+{
+	while (*stack_b)
+	{
+		if (find_val(*stack_b, map_max(*stack_b)) < lst_size(*stack_b) / 2)
+			while ((*stack_b)->valor < map_max(*stack_b))
+				rotate_b(stack_b);
+		else
+			while ((*stack_b)->valor < map_max(*stack_b))
+				reverse_rotate_b(stack_b);
+		push_a(stack_a, stack_b);
+	}
+}
+
 void	algo_100(t_list **stack_a, t_list **stack_b)
 {
 	int	chunk;
@@ -112,14 +103,5 @@ void	algo_100(t_list **stack_a, t_list **stack_b)
 		while (*stack_a)
 			push_b(stack_a, stack_b);
 	}
-	while (*stack_b)
-	{
-		if (find_val(*stack_b, map_max(*stack_b)) < lst_size(*stack_b) / 2)
-			while ((*stack_b)->valor < map_max(*stack_b))
-				rotate_b(stack_b);
-		else
-			while ((*stack_b)->valor < map_max(*stack_b))
-				reverse_rotate_b(stack_b);
-		push_a(stack_a, stack_b);
-	}
+	back_tob(stack_a, stack_b);
 }

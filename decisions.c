@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/22 17:05:46 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/23 17:42:23 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:59:06 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,14 @@ int	find_holdsecond(t_list **stack_a, int chunk, int size)
 	return (j);
 }
 
-void	go_tob(t_list **stack_a, t_list **stack_b, int size, int chunk)
+void	go_tob(t_list **stack_a, t_list **stack_b, int size)
 {
 	int	max;
-	int	r;
 
-	r = (size / chunk) / 2;
 	if (*stack_b)
 	{
 		max = map_max(*stack_b);
-		if ((*stack_a)->valor > max - r)
+		if ((*stack_a)->valor > max)
 		{
 			if (find_val(*stack_b, max) < size / 2)
 			{
@@ -94,5 +92,5 @@ void	decisions(t_list **stack_a, t_list **stack_b, int chunk, int size)
 		while ((*stack_a)->index + 1 > chunk)
 			reverse_rotate_a(stack_a);
 	}
-	go_tob(stack_a, stack_b, size, chunk);
+	go_tob(stack_a, stack_b, size);
 }

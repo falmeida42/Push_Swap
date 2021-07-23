@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/19 18:23:12 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/21 18:00:26 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 18:10:34 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,16 @@ void	delet_direita(t_list *primeirono)
 	}
 	free(aux->proximo);
 	aux->proximo = NULL;
+}
+
+void	reset_index(t_list **stack_a)
+{
+	t_list	*aux;
+
+	aux = *stack_a;
+	while (aux)
+	{
+		aux->index = 0;
+		aux = aux->proximo;
+	}
 }

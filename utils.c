@@ -6,7 +6,7 @@
 /*   By: falmeida <falmeida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/10 18:10:31 by falmeida          #+#    #+#             */
-/*   Updated: 2021/07/23 15:00:04 by falmeida         ###   ########.fr       */
+/*   Updated: 2021/07/23 17:52:28 by falmeida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,6 @@ bool	sorted(t_list *primeirono)
 	while (aux->proximo != NULL)
 	{
 		if (aux->valor > aux->proximo->valor)
-			return (false);
-		aux = aux->proximo;
-	}
-	return (true);
-}
-
-bool	max_list(t_list *stack)
-{
-	t_list	*aux;
-	int		i;
-
-	i = stack->valor;
-	aux = stack;
-	while (aux->proximo != NULL)
-	{
-		if (i < aux->valor)
 			return (false);
 		aux = aux->proximo;
 	}
